@@ -162,7 +162,7 @@
                     <page string="Help (for KPI expressions)">
                         <group>
                             <group>
-                                <div>
+                                <div colspan="2">
                                     <p>
                                         Expressions can be any valid python expressions.
                                     </p>
@@ -237,7 +237,7 @@
                                 </div>
                             </group>
                             <group>
-                                <div>
+                                <div colspan="2">
                                     <p>Examples:</p>
                                     <ul>
                                         <li>

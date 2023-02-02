@@ -48,7 +48,7 @@
             <form string="MIS Report Instance">
                 <sheet>
                     <field name="temporary" invisible="1" />
-                    <div class="oe_read_only oe_right oe_button_box" name="buttons">
+                    <div class="oe_right oe_button_box" name="buttons">
                         <button
                             type="object"
                             name="preview"
