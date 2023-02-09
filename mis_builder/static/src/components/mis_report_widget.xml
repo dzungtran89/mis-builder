@@ -1,9 +1,11 @@
-<template>
-    <t t-name="MisReportWidgetTemplate">
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+    <t t-name="mis_builder.MisReportWidget" owl="1">
         <div class="oe_mis_builder_content">
-            <t t-if="widget.mis_report_data">
-                <h2 t-if="widget.mis_report_data.report_name">
-                    <t t-esc="widget.mis_report_data.report_name" />
+            <t t-if="props.mis_report_data">
+                <h2 t-if="props.mis_report_data.report_name">
+                    <t t-esc="props.mis_report_data.report_name" />
                 </h2>
                 <div>
                     <div
@@ -11,20 +13,21 @@
                         style="position: relative; display: inline-block;"
                     />
                     <div class="oe_mis_builder_buttons oe_right oe_button_box">
-                        <button class="oe_mis_builder_refresh btn btn-sm oe_button">
+                        <button t-on-click="refresh" class="oe_mis_builder_refresh btn btn-sm oe_button">
                             <span class="fa fa-refresh" />
                             Refresh
                         </button>
-                        <button class="oe_mis_builder_print btn btn-sm oe_button">
+                        <button t-on-click="printPdf" class="oe_mis_builder_print btn btn-sm oe_button">
                             <span class="fa fa-print" />
                             Print
                         </button>
-                        <button class="oe_mis_builder_export btn btn-sm oe_button">
+                        <button t-on-click="exportXls" class="oe_mis_builder_export btn btn-sm oe_button">
                             <span class="fa fa-download" />
                             Export
                         </button>
                         <button
-                            t-if="widget.show_settings"
+                            t-on-click="displaySettings"
+                            t-if="props.show_settings"
                             class="oe_mis_builder_settings btn btn-sm oe_button"
                         >
                             <span class="fa fa-cog" />
@@ -37,8 +40,9 @@
                 >
                     <thead>
                         <tr
-                            t-foreach="widget.mis_report_data.header"
+                            t-foreach="props.mis_report_data.header"
                             t-as="row"
+                            t-key="row_index"
                             class="oe_list_header_columns"
                         >
                             <th class="oe_list_header_char">
@@ -47,6 +51,7 @@
                             <th
                                 t-foreach="row.cols"
                                 t-as="col"
+                                t-key="col_index"
                                 class="oe_list_header_char mis_builder_collabel"
                                 t-att-colspan="col.colspan"
                             >
@@ -59,17 +64,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr t-foreach="widget.mis_report_data.body" t-as="row">
-                            <td t-att="{'style': row.style}">
-                                <t t-esc="row.label" />
-                                <t t-if="row.description">
+                        <tr t-foreach="props.mis_report_data.body" t-as="body_row" t-key="body_row_index">
+                            <td t-att="{'style': body_row.style}">
+                                <t t-esc="body_row.label" />
+                                <t t-if="body_row.description">
                                     <br />
-                                    <t t-esc="row.description" />
+                                    <t t-esc="body_row.description" />
                                 </t>
                             </td>
                             <td
-                                t-foreach="row.cells"
+                                t-foreach="body_row.cells"
                                 t-as="cell"
+                                t-key="cell_index"
                                 t-att="{'style': cell.style, 'title': cell.val_c}"
                                 class="mis_builder_amount"
                             >
@@ -77,6 +83,7 @@
                                     <a
                                         href="javascript:void(0)"
                                         class="mis_builder_drilldown"
+                                        t-on-click="drilldown"
                                         t-att-data-drilldown="JSON.stringify(cell.drilldown_arg)"
                                     >
                                         <t t-esc="cell.val_r" />
@@ -95,4 +102,5 @@
             </t>
         </div>
     </t>
-</template>
+
+</templates>
