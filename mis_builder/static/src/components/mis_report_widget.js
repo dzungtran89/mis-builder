@@ -10,7 +10,7 @@ export class MisReportWidget extends Component {
         super.setup();
         this.orm = useService('orm');
         this.user = useService("user");
-        this.legacyActionManager = useService("legacy_action_manager");
+        this.action = useService("action");
         this.JSON = JSON;
         this.user_context = Component.env.session.user_context;
         this.state = useState({ mis_report_data: {} });
@@ -69,7 +69,7 @@ export class MisReportWidget extends Component {
             [this._instanceId(), drilldown],
             {context: this.user_context},
         )
-        this.legacyActionManager.do_action(action);
+        this.action.doAction(action);
     }
     async refresh () {
         this.state.mis_report_data = await this.orm.call(
@@ -87,7 +87,7 @@ export class MisReportWidget extends Component {
             [this._instanceId()],
             {context: this.user_context},
         )
-        this.legacyActionManager.do_action(action);
+        this.action.doAction(action);
     }
 
     async exportXls() {
@@ -97,7 +97,7 @@ export class MisReportWidget extends Component {
             [this._instanceId()],
             {context: this.user_context},
         )
-        this.legacyActionManager.do_action(action);
+        this.action.doAction(action);
     }
 
     async displaySettings() {
@@ -107,7 +107,7 @@ export class MisReportWidget extends Component {
             [this._instanceId()],
             {context: this.user_context},
         )
-        this.legacyActionManager.do_action(action);
+        this.action.doAction(action);
     }
 }
 MisReportWidget.template = "mis_builder.MisReportWidget";
