@@ -3,7 +3,7 @@
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
-const { Component, onWillStart } = owl;
+const { Component, onWillStart, useState } = owl;
 
 export class MisReportWidget extends Component {
     setup() {
@@ -13,12 +13,12 @@ export class MisReportWidget extends Component {
         this.legacyActionManager = useService("legacy_action_manager");
         this.JSON = JSON;
         this.user_context = Component.env.session.user_context;
-
+        this.state = useState({ mis_report_data: {} });
         onWillStart(this.willStart);
     }
     // Lifecycle
     async willStart() {
-        this.props.mis_report_data = await this.orm.call(
+        this.state.mis_report_data = await this.orm.call(
                 "mis.report.instance",
                 "compute",
                 [this._instanceId()],
@@ -72,7 +72,12 @@ export class MisReportWidget extends Component {
         this.legacyActionManager.do_action(action);
     }
     async refresh () {
-        this.render();
+        this.state.mis_report_data = await this.orm.call(
+            "mis.report.instance",
+            "compute",
+            [this._instanceId()],
+            {context: this.user_context}
+        );
     }
 
     async printPdf () {
