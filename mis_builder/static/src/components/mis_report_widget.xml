@@ -64,16 +64,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr t-foreach="state.mis_report_data.body" t-as="body_row" t-key="body_row_index">
-                            <td t-att="{'style': body_row.style}">
-                                <t t-esc="body_row.label" />
-                                <t t-if="body_row.description">
+                        <tr t-foreach="state.mis_report_data.body" t-as="row" t-key="row_index">
+                            <td t-att="{'style': row.style}">
+                                <t t-esc="row.label" />
+                                <t t-if="row.description">
                                     <br />
-                                    <t t-esc="body_row.description" />
+                                    <t t-esc="row.description" />
                                 </t>
                             </td>
                             <td
-                                t-foreach="body_row.cells"
+                                t-foreach="row.cells"
                                 t-as="cell"
                                 t-key="cell_index"
                                 t-att="{'style': cell.style, 'title': cell.val_c}"
